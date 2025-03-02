@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Sains & Deret</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="index.html">Kalkulator Sains</a>
+            <a href="deret.html" class="active">Kalkulator Deret</a>
+        </nav>
+        <div class="calculator-wrapper">
+            <div class="sequence-calculator">
+                <h2>Kalkulator Deret & Barisan</h2>
+                <div class="sequence-inputs">
+                    <div class="input-group">
+                        <label for="firstTerm">Suku Pertama (a)</label>
+                        <input type="number" id="firstTerm" placeholder="Masukkan suku pertama">
+                    </div>
+                    <div class="input-group">
+                        <label for="commonDiff">Beda/Rasio (b/r)</label>
+                        <input type="number" id="commonDiff" placeholder="Masukkan beda/rasio">
+                    </div>
+                    <div class="input-group">
+                        <label for="numTerms">Jumlah Suku (n)</label>
+                        <input type="number" id="numTerms" placeholder="Masukkan jumlah suku">
+                    </div>
+                </div>
+                <div class="sequence-buttons">
+                    <button onclick="calculateArithmetic()">Barisan Aritmatika</button>
+                    <button onclick="calculateGeometric()">Barisan Geometri</button>
+                    <button onclick="calculateInfinite()">Deret Tak Hingga</button>
+                </div>
+                <div class="sequence-results">
+                    <h3>Hasil</h3>
+                    <div id="sequenceOutput"></div>
+                    <div id="seriesSum"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="calculator.js"></script>
+</body>
+</html>
