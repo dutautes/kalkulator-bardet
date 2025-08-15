@@ -2,8 +2,24 @@
 let display = document.getElementById('display');
 
 function appendToDisplay(value) {
+    const operators = ['+', '-', '*', '/', '^'];
+
+    // Cek jika input adalah titik
+    if (value === '.') {
+        let lastNumber = display.value.split(/[\+\-\*\/\^]/).pop();
+        if (lastNumber.includes('.')) return;
+    }
+
+    // Cek jika input adalah operator
+    if (operators.includes(value)) {
+        let lastChar = display.value.slice(-1);
+        // Jika display kosong atau karakter terakhir sudah operator, hentikan
+        if (display.value === '' || operators.includes(lastChar)) return;
+    }
+
     display.value += value;
 }
+
 
 function clearDisplay() {
     display.value = '';
@@ -53,6 +69,24 @@ function calculateCos() {
     }
 }
 
+function calculatePercent() {
+    try {
+        let value = eval(display.value); // ambil nilai sekarang
+        display.value = value / 100;     // ubah jadi persen
+    } catch (error) {
+        display.value = 'Error';
+    }
+}
+
+function calculateTan() {
+    try {
+        display.value = Math.tan(eval(display.value) * Math.PI / 180);
+    } catch (error) {
+        display.value = 'Error';
+    }
+}
+
+
 // Keyboard Support
 document.addEventListener('keydown', (event) => {
     const key = event.key;
@@ -69,7 +103,10 @@ document.addEventListener('keydown', (event) => {
         clearDisplay();
     } else if (key === '^') {
         appendToDisplay('**');
+    } else if (key === '%') {
+        calculatePercent();
     }
+
 });
 
 // Sequence Calculator Functions
@@ -113,18 +150,22 @@ function calculateGeometric() {
         return;
     }
 
+    
     let sequence = [];
     let sum = 0;
     
     for (let i = 0; i < n; i++) {
-        const term = a * Math.pow(r, i);
+        const term = a * Math.pow(r, i);    
         sequence.push(term);
         sum += term;
     }
 
+    let Un = a * Math.pow(r, n - 1); // hitung suku ke-n
+
     document.getElementById('sequenceOutput').innerHTML = `
         <p><strong>Barisan:</strong> ${sequence.join(', ')}</p>
         <p><strong>Rumus Suku ke-n:</strong> Un = ${a} × ${r}<sup>n-1</sup></p>
+        <p><strong>Hasil Un:</strong> ${Un}</p>
     `;
     
     document.getElementById('seriesSum').innerHTML = `
@@ -149,17 +190,19 @@ function calculateInfinite() {
         document.getElementById('seriesSum').innerHTML = '';
         return;
     }
-
     const sum = a / (1 - r);
 
+    let Un = a + (n - 1) * d; // hitung suku ke-n
+
     document.getElementById('sequenceOutput').innerHTML = `
-        <p><strong>Deret Geometri Tak Hingga</strong></p>
-        <p>Suku pertama (a) = ${a}</p>
-        <p>Rasio (r) = ${r}</p>
+        <p><strong>Barisan:</strong> ${sequence.join(', ')}</p>
+        <p><strong>Rumus Suku ke-n:</strong> Un = ${a} + (n-1) × ${d}</p>
+        <p><strong>Hasil Un:</strong> ${Un}</p>
     `;
-    
+        
     document.getElementById('seriesSum').innerHTML = `
-        <p><strong>Jumlah Tak Hingga:</strong> ${sum}</p>
-        <p><strong>Rumus Jumlah:</strong> S∞ = a/(1-r)</p>
+        <p><strong>Jumlah (Sn):</strong> ${sum}</p>
+        <p><strong>Rumus Jumlah:</strong> Sn = ${n}/2 × (${a} + ${a + (n-1)*d})</p>
     `;
+
 }
